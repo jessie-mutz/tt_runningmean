@@ -13,7 +13,7 @@ head(tt_ws_data)
 moving_average_10 <- function(x, n = 10){filter(x, rep(1 / n, n), sides = 1)} # 10-day moving average function
 
 ## convert dates to day, month, year, doy
-tt_ws_data$r_date <- strptime(tt_ws_data$DATE, '%m/%d/%y')
+tt_ws_data$r_date <- strptime(tt_ws_data$DATE, '%m/%d/%Y') #JM changed %y to %Y because year includes century (YYYY instead of YY)
 tt_ws_data$month <- as.numeric(format(tt_ws_data$r_date, "%m"))
 tt_ws_data$day <- as.numeric(format(tt_ws_data$r_date, "%d"))
 tt_ws_data$year <- as.numeric(format(tt_ws_data$r_date, "%Y"))
@@ -28,7 +28,7 @@ tt_ws_data_20162021$average_temperature <- (rowMeans(tt_ws_data_20162021[,c('TMI
 hist(tt_ws_data_20162021$average_temperature)
 
 ## calculate running means
-tt_ws_data_20162021$tgrowth10 <- moving_average(tt_ws_data_20162021$average_temperature)
+tt_ws_data_20162021$tgrowth10 <- moving_average_10(tt_ws_data_20162021$average_temperature) #JM changed moving_average to moving_average_10 to make function name
 
 ## output data
 write.csv(tt_ws_data_20162021[,c(1:5,13, 15, 55:61)], 
